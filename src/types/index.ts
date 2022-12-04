@@ -1,0 +1,1 @@
+export type { INewUser, IUser } from './user';

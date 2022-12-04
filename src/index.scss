@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'WorkSans';
+  src: url('./fonts/WorkSans-Light.woff');
+  src: local('WorkSans'),
+      url('./fonts/WorkSans-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('./fonts/WorkSans-Light.woff2');
+  src: local('WorkSans'),
+      url('./fonts/WorkSans-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Work Sans', sans-serif;
+}
+
