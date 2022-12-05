@@ -34,9 +34,9 @@ function Home() {
               <CardContent>
                 <TabContext value={value}>
                   <TabList onChange={handleChange} centered data-testid='tab_list'>
-                    <Tab label="Sign In" value='1'/>
-                    <Tab label="Sign Up" value='2'/>
-                    <Tab label="Restore" value='3'/>
+                    <Tab label="Sign In" value='1' data-testid='tab_btn-1'/>
+                    <Tab label="Sign Up" value='2' data-testid='tab_btn-2'/>
+                    <Tab label="Restore" value='3' data-testid='tab_btn-3'/>
                   </TabList>
 
                   <TabPanel value='1' sx={{padding: '15px 0 0 0'}}>

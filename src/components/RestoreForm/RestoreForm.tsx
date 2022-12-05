@@ -48,6 +48,7 @@ export function RestoreForm() {
         display='flex' 
         rowGap={2} 
         flexWrap='wrap'
+        data-testid='restore-form'
       >
         <Box width='100%'>
           <TextField 

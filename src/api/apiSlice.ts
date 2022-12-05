@@ -1,4 +1,4 @@
-import { BaseQueryApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BaseQueryApi, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IUser } from '../types';
 import { setUser, logOut } from '../store/slices/user';
 
@@ -13,9 +13,8 @@ const baseQuery = fetchBaseQuery({
     return headers;
   }
 });
-// as BaseQueryFn<string | FetchArgs, unknown, { status: number; data: {message: string}}, {}>
 
-export const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
+const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.status === 401) {
@@ -24,15 +23,19 @@ export const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQue
     if (refreshResult.data) {
       const user = (refreshResult.data as {user: IUser, accessToken: string}).user;
       const accessToken = (refreshResult.data as {user: IUser, accessToken: string}).accessToken;
-      // Сохраняем новый токен и пользователя (на случай если его нет в сторе)
       api.dispatch(setUser(user));
       localStorage.setItem('token', accessToken);
       result = await baseQuery(args, api, extraOptions);
     }
     else {
-      api.dispatch(logOut()); // если обновить access token не удалось, то удаляем refresh token
+      api.dispatch(logOut());
     }
   }
 
   return result;
 }
+
+export const apiSlice = createApi({
+  baseQuery: baseQueryWithReauth,
+  endpoints: (build) => ({})
+})

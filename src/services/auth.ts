@@ -1,10 +1,7 @@
 import { INewUser, IUser } from '../types';
-import { baseQueryWithReauth } from './baseQueryWithReauth';
-import { createApi } from '@reduxjs/toolkit/query/react';
+import { apiSlice } from '../api';
 
-export const authApi = createApi({
-  reducerPath: 'auth',
-  baseQuery: baseQueryWithReauth,
+export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: function(build) {
     return {
       registration: build.mutation<null, INewUser>({
@@ -74,4 +71,4 @@ export const {
   useLogoutQuery, 
   useRestoreMutation,
   useResetPasswordMutation,
-} = authApi;
+} = authApiSlice;
