@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { server } from './mocks/api/server'
+import { server } from './mocks/api/server';
 import { apiSlice } from './api';
 import { setupStore } from './store';
 
@@ -7,7 +7,9 @@ const store = setupStore({});
 
 // Establish API mocking before all tests.
 beforeAll(() => {
-  server.listen();
+  server.listen({
+    onUnhandledRequest: 'warn',
+  })
 });
 
 // Reset any request handlers that we may add during the tests,

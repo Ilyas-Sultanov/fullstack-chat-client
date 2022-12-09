@@ -3,9 +3,11 @@ export interface IUser {
   name: string
   email: string
   avatar: string
-  roles: string[]
+  roles: Array<TUserRole>
   isActivated: boolean
 }
+
+export type TUserRole = 'user' | 'admin'
 
 export interface INewUser extends Omit<IUser, '_id' | 'avatar' | 'roles' | 'isActivated'> {
   password: string

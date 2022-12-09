@@ -6,6 +6,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:5000',
   credentials: 'include',
   prepareHeaders: function(headers, /*{ getState }*/) {
+    headers.set('Content-Type', 'application/json');
     const token = localStorage.getItem('token');
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);

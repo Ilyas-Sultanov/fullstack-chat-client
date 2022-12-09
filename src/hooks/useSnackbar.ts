@@ -1,12 +1,16 @@
 import { useState } from 'react';
 
-type MsgType = 'success' | 'info' | 'warning' | 'error'
+interface IMsg {
+  type: 'success' | 'info' | 'warning' | 'error',
+  text: string,
+  duration?: number
+}
 
-export function useSnackbar() {
-  const [msg, setMsg] = useState<{type: MsgType, text: string}>({type: 'success', text: ''});
+export function useSnackbar(initialMsg?: IMsg) {
+  const [msg, setMsg] = useState<IMsg>(initialMsg ?? {type: 'success', text: ''});
 
-  function setMessage(type: MsgType, text: string) {
-    setMsg({type, text})
+  function setMessage(msg: IMsg) {
+    setMsg(msg)
   }
 
   function removeMessage() {

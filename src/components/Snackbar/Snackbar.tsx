@@ -15,6 +15,7 @@ export function Snackbar(props: ISnackbarProps) {
   return (
     <MUISnackbar
       {...props} 
+      data-testid='snackbar'
     >
       <Alert 
         onClose={(e) => props.onClose && props.onClose(e, 'escapeKeyDown')} 

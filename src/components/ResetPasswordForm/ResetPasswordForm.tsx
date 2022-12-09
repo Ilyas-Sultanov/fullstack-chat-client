@@ -1,20 +1,15 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, TextField, FormHelperText, CircularProgress } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'; 
 import { IFormInputs } from './ResetPasswordForm.types';
 import { validationSchema } from './validationSchema';
-import { useResetPasswordMutation } from '../../services/auth';
-import { Snackbar } from '../../components';
-import { useSnackbar } from '../../hooks';
-import { isErrorWithMessage, isFetchBaseQueryError } from '../../helpers';
 
-export function ResetPasswordForm() {
-  const navigate = useNavigate();
-  const { link } = useParams();
-  const [resetPassword, {isLoading}] = useResetPasswordMutation();
-  const { msg, setMessage, removeMessage } = useSnackbar();
-  
+interface IResetFormProps {
+  onSubmit: (password: string) => void
+  isLoading: boolean
+}
+
+export function ResetPasswordForm({onSubmit, isLoading}: IResetFormProps) {
   const {
     register, 
     handleSubmit, 
@@ -22,35 +17,10 @@ export function ResetPasswordForm() {
     formState,
   } = useForm<IFormInputs>({mode: 'onBlur', resolver: yupResolver(validationSchema)});
 
-  const formSubmitHandler: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
-    try {
-      if (link) {
-        await resetPassword({
-          resetLink: link,
-          newPassword: data.password,
-        }).unwrap();
-
-        reset();
-        navigate('/');
-      }
-      else {
-        throw new Error('Link is required');
-      }
-    }
-    catch (err) {
-      if (isFetchBaseQueryError(err)) {
-        const errMsg = 'error' in err ? err.error : (err.data as {message: string}).message;
-        setMessage('error', errMsg);
-      } 
-      else if (isErrorWithMessage(err)) {
-        setMessage('error', err.message);
-      }
-    }
+  const formSubmitHandler: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+    onSubmit(data.password);
+    reset();
   };
-
-  function closeHandler() {
-    removeMessage();
-  }
 
   return (
     <>
@@ -71,12 +41,17 @@ export function ResetPasswordForm() {
             fullWidth 
             size="small" 
             required
+            autoComplete='off'
             {...register('password')}
             error={!!formState.errors.password?.message}
+            inputProps={{ 'data-testid': 'password-input' }}
           />
           {
             formState.errors.password ?
-            <FormHelperText error>{formState.errors.password.message}</FormHelperText> :
+            <FormHelperText 
+              error
+              data-testid='password-validation-message'
+            >{formState.errors.password.message}</FormHelperText> :
             null
           }
         </Box>
@@ -89,34 +64,32 @@ export function ResetPasswordForm() {
             fullWidth 
             size="small" 
             required
+            autoComplete='off'
             {...register('confirmPassword')}
+            inputProps={{ 'data-testid': 'confirm-password-input' }}
           />
           {
             formState.errors.confirmPassword ?
-            <FormHelperText error>{formState.errors.confirmPassword.message}</FormHelperText> :
+            <FormHelperText 
+              error
+              data-testid='confirm-password-validation-message'
+            >{formState.errors.confirmPassword.message}</FormHelperText> :
             null
           }
         </Box>
 
         {
           isLoading ? 
-          <CircularProgress /> :
+          <CircularProgress data-testid='spiner'/> :
           <Button 
             type='submit' 
             variant="contained" 
             fullWidth
             disabled={!formState.isValid}
+            data-testid='submit-btn'
           >Reset</Button>
         }      
       </Box>
-
-      <Snackbar
-        open={!!msg.text}
-        autoHideDuration={6000} 
-        onClose={closeHandler}
-        message={msg.text}
-        severity={msg.type}
-      />
     </>
   )
 }

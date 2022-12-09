@@ -5,22 +5,26 @@ const ResetPassword = lazy(() => import('../pages/ResetPassword/ResetPassword'))
 const Admin = lazy(() => import('../pages/Admin/Admin'));
 const NotFound = lazy(() => import("../pages/NotFound/NotFound"));
 
-const publicRoutes = [
+const publicRoutes = [ // доступ только для не вошедших пользователей
   { path: '/', element: Home },
   { path: '/resetPassword/:link', element: ResetPassword },
-  { path: '*', element: NotFound },
 ];
 
-const privateRoutes = [
+const privateRoutes = [ // доступ только для вошедших пользователей
   { path: 'chats', element: Chats },
 ];
 
-const adminRoutes = [
+const adminRoutes = [ // доступ только для админа
   { path: 'admin/*', element: Admin }, // звездочка нужна для того чтобы отличать вложенные роуты от родительского, если есть вложенные роуты, то * обязательна
 ];
+
+const openRoutes = [ // доступно всем
+  { path: '*', element: NotFound },
+]
 
 export {
   publicRoutes,
   privateRoutes,
-  adminRoutes
+  adminRoutes,
+  openRoutes
 };

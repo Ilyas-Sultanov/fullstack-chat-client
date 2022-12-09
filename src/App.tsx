@@ -4,7 +4,7 @@ import { setUser } from './store/slices/user';
 import { useRefreshQuery } from'./services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store';
-import { publicRoutes, privateRoutes, adminRoutes } from './routes/routes';
+import { publicRoutes, privateRoutes, adminRoutes, openRoutes } from './routes/routes';
 // import { useWhyDidYouUpdate } from './hooks';
 
 function App() {
@@ -16,9 +16,9 @@ function App() {
   // useWhyDidYouUpdate('App', {skip, data, isLoading, user});
 
   const routes = user && user.roles.includes('admin') ? 
-    [...publicRoutes, ...privateRoutes, ...adminRoutes] :
-    user ? [...publicRoutes, ...privateRoutes] :
-    publicRoutes
+    [...privateRoutes, ...adminRoutes, ...openRoutes] :
+    user ? [...privateRoutes, ...openRoutes] :
+    [...publicRoutes, ...openRoutes]
   ;
 
   useEffect(

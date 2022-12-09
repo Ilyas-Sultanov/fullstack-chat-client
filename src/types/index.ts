@@ -1,1 +1,1 @@
-export type { INewUser, IUser } from './user';
+export type { INewUser, IUser, TUserRole } from './user';
