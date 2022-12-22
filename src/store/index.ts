@@ -1,11 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import type { PreloadedState } from '@reduxjs/toolkit';
-import { userReducer } from './slices/user';
 import { apiSlice } from '../api';
+import { userReducer } from './slices/user';
+import { chatReducer } from './slices/chat/chatSlice';
+import { searchContactsDrawerReducer } from './slices/searchContactsDrawer/searchContactsDrawerSlice';
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   user: userReducer,
+  chat: chatReducer,
+  searchContactsDrawer: searchContactsDrawerReducer,
 })
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {

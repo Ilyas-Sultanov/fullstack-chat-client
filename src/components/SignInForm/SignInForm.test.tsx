@@ -1,21 +1,19 @@
 import { screen, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { renderWithProviders } from '../../helpers/testUtils';
-import { rest } from 'msw';
-import { SignInForm } from "./SignInForm";
+import Home from '../../pages/Home/Home';
 import Chats from '../../pages/Chats/Chats';
-import { act } from "react-dom/test-utils";
-
-const mockLogin = jest.fn((email, password) => {
-  return Promise.resolve({ email, password });
-});
 
 describe('SignInForm', () => {
   
   beforeEach(() => {
     renderWithProviders(
-      <SignInForm onSubmit={mockLogin} isLoading={false}/>
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/chats' element={<Chats/>}/>
+        </Routes>
+      </MemoryRouter>
     )
   });
 
@@ -52,11 +50,36 @@ describe('SignInForm', () => {
     });
   });
 
-  test('Submit', async () => {
+  test('Success sign in', async () => {
+    const homePage = screen.getByTestId('home_page');
     const submitBtn = screen.getByTestId('submit-btn');
 
     const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
-    const email = 'test@mail.ru';
+    fireEvent.input(emailInput, {target: {value: 'test@mail.ru'}});
+    expect(screen.getByDisplayValue('test@mail.ru')).toBeInTheDocument();
+
+    const passwordInput = screen.getByTestId('password-input') as HTMLInputElement;
+    fireEvent.input(passwordInput, {target: {value: '12345'}});
+    expect(screen.getByDisplayValue('12345')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(submitBtn).toBeEnabled();
+    });
+    
+    fireEvent.submit(submitBtn);  
+    
+    await waitFor(() => {
+      expect(homePage).not.toBeInTheDocument();
+      expect(screen.getByTestId('chats-page')).toBeInTheDocument();
+    });
+  });
+
+  test('Fail sign in (invalid email)', async () => {
+    const homePage = screen.getByTestId('home_page');
+    const submitBtn = screen.getByTestId('submit-btn');
+
+    const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
+    const email = 'notRegistred@mail.ru';
     fireEvent.input(emailInput, {target: {value: email}});
     expect(screen.getByDisplayValue(email)).toBeInTheDocument();
 
@@ -65,15 +88,56 @@ describe('SignInForm', () => {
     fireEvent.input(passwordInput, {target: {value: password}});
     expect(screen.getByDisplayValue(password)).toBeInTheDocument();
 
-    await waitFor(() => {
+    await waitFor(() => { // Кнопка становится активное после ререндера, а значит сдесь await waitFor() обязательно, иначе возникает ворнинг о том что компонента перерендерилась а мы это не учли.
       expect(submitBtn).toBeEnabled();
     });
-    
-    fireEvent.submit(submitBtn);  
+
+    // waitFor дожидается того что мы ожидаем в expect и возвращает промис, поэтому await
+
+    fireEvent.submit(submitBtn); 
+
+    await waitFor(() => { // спинер появляется сразу
+      expect(screen.getByTestId('spiner')).toBeInTheDocument();
+    });
+
+    await waitFor(async () => { // спинер исчезает асинхронно
+      expect(homePage).toBeInTheDocument();
+      expect(screen.queryByTestId('spiner')).not.toBeInTheDocument();
+      expect(screen.getByText('Invalid email or password')).toBeInTheDocument();
+      expect(screen.queryByTestId('chats-page')).not.toBeInTheDocument();
+    });
+  });
+
+
+  test('Fail sign in (invalid password)', async () => {
+    const homePage = screen.getByTestId('home_page');
+    const submitBtn = screen.getByTestId('submit-btn');
+
+    const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
+    const email = 'test@mail.ru';
+    fireEvent.input(emailInput, {target: {value: email}});
+    expect(screen.getByDisplayValue(email)).toBeInTheDocument();
+
+    const passwordInput = screen.getByTestId('password-input') as HTMLInputElement;
+    const password = 'invalidPassword';
+    fireEvent.input(passwordInput, {target: {value: password}});
+    expect(screen.getByDisplayValue(password)).toBeInTheDocument();
+
+    await waitFor(() => { 
+      expect(submitBtn).toBeEnabled();
+    });
+
+    fireEvent.submit(submitBtn); 
 
     await waitFor(() => {
-      expect(mockLogin).toHaveBeenCalledTimes(1)
-      expect(mockLogin).toBeCalledWith(email, password);
+      expect(screen.getByTestId('spiner')).toBeInTheDocument();
     });
-  });    
+
+    await waitFor(async () => { 
+      expect(homePage).toBeInTheDocument();
+      expect(screen.queryByTestId('spiner')).not.toBeInTheDocument();
+      expect(screen.getByText('Invalid email or password')).toBeInTheDocument();
+      expect(screen.queryByTestId('chats-page')).not.toBeInTheDocument();
+    });
+  });
 });

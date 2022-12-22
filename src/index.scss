@@ -27,3 +27,8 @@ body {
   font-family: 'Work Sans', sans-serif;
 }
 
+.App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

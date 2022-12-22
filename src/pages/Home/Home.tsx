@@ -2,7 +2,7 @@ import './Home.scss';
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Container, Grid, Card, CardContent, Typography, Tab } from '@mui/material';
+import { Grid, Card, CardContent, Typography, Tab, Box } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { SignInForm, SignUpForm, RestoreForm } from '../../components';
 import { isErrorWithMessage, isFetchBaseQueryError } from '../../helpers';
@@ -96,8 +96,7 @@ function Home() {
   };
     
   return (
-    <Container maxWidth="xl" className='home' data-testid="home_page">
-
+    <Box className='home-page' data-testid="home_page">
       <Grid container display='flex' flexDirection='column' rowGap={2}>
 
         <Grid container justifyContent='center'>
@@ -147,8 +146,7 @@ function Home() {
         message={msg.text}
         severity={msg.type}
       />
-
-    </Container>
+    </Box>
   )
 }
 

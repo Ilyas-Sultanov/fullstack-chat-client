@@ -38,5 +38,6 @@ const baseQueryWithReauth = async (args: string | FetchArgs, api: BaseQueryApi, 
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['Chat'],
   endpoints: (build) => ({})
 })
