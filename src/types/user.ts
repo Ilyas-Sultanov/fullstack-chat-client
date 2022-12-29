@@ -5,6 +5,7 @@ export interface IUser {
   avatar: string
   roles: Array<TUserRole>
   isActivated: boolean
+  createdAt?: string
 }
 
 export type TUserRole = 'user' | 'admin'

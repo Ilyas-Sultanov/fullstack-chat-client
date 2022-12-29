@@ -31,6 +31,7 @@ function SearchUserForm({onSubmit, isLoading}: ISearchUserFormProps) {
         component='form' 
         className='form search-user__form'
         onSubmit={handleSubmit(formSubmitHandler)}
+        data-testid='search-user__form'
       >
         <TextField
           className='TextField'
@@ -39,6 +40,7 @@ function SearchUserForm({onSubmit, isLoading}: ISearchUserFormProps) {
           placeholder='Search user'
           {...register('name')}
           error={!!formState.errors.name?.message}
+          inputProps={{ 'data-testid': 'name-input' }}
         />
         <Button 
           type='submit'

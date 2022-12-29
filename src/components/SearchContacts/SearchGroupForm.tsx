@@ -30,6 +30,7 @@ function SearchGroupForm({onSubmit, isLoading}: ISearchGroupFormProps) {
       component='form' 
       className='form search-group__form'
       onSubmit={handleSubmit(formSubmitHandler)}
+      data-testid='search-group-form'
     >
       <TextField
         className='TextField'
@@ -38,6 +39,7 @@ function SearchGroupForm({onSubmit, isLoading}: ISearchGroupFormProps) {
         placeholder='Search group'
         {...register('name')}
         error={!!formState.errors.name?.message}
+        inputProps={{ 'data-testid': 'name-input' }}
       />
       <Button 
         type='submit'

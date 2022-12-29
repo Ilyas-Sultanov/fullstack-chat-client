@@ -52,7 +52,7 @@ function Sidebar() {
   const chats = value === 'users' ? oneOnOneChats : groupChats;
 
   return (
-    <Box component='aside' className='sidebar'>
+    <Box component='aside' className='sidebar' data-testid='chats-sidebar'>
       <Box className='sidebar__header'>
         <FormControl>
           <RadioGroup
@@ -81,6 +81,7 @@ function Sidebar() {
               return (
                 <Button
                   key={chat._id}
+                  data-testid='user-chat'
                   className={`sidebar__chat ${selectChat && selectChat._id === chat._id ? 'active' : ''}`}
                   onClick={() => dispatch(setSelectedChat(chat))}
                 >{getChatName(currentUser, chat)}</Button> // Для чата один на один имя собеседника является названием чата, поэтому нужно выбрать имя не текущего пользователя. Для группового чата имя остается как есть.

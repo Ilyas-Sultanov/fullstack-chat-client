@@ -74,14 +74,16 @@ function Users() {
       />
       <Box className='search-results'>
         { 
-          responseData ?
+          isLoading ? <LinearProgress/> :
+          responseData && responseData.data.length > 0 ?
           responseData.data.map((user, index) => {
             if (responseData.data.length === index + 1) {
               return <User key={user._id} user={user} ref={lastUserRef}/> // ref добавляем только для последнего <User/>
             }
             return <User key={user._id} user={user}/>
           }) : 
-          isLoading ? <LinearProgress/> :
+          responseData && responseData.data.length === 0 ?
+          'Not found' : 
           null
         }
       </Box>      

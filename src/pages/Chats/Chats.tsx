@@ -65,12 +65,13 @@ function Chats() {
                   onClick={leave}
                 >Leave Chat</LoadingButton>
                 {
-                  selectedChat.isGroupChat && user._id === selectedChat.groupAdmin._id &&
+                  selectedChat.isGroupChat && user._id === selectedChat.groupAdmin?._id &&
                   <Button 
                     className='btn' 
                     variant='contained' 
                     size='small'
                     onClick={() => setOpenAdminChatModal(true)}
+                    aria-label='chat admin button' // это вместо текста кнопки (т.к. иконка вместо текста), чтобы найти эту кнопку в тестах.
                   >
                     <AdminPanelSettingsOutlined/>
                   </Button>

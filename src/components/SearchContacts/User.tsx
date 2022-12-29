@@ -37,7 +37,7 @@ const User = forwardRef( ({user}: {user: IUser}, ref) => {
 
   const content = 
     <>
-      <Box ref={ref ?? undefined} className='user'>
+      <Box ref={ref ?? undefined} className='user' data-testid='user'>
         <LoadingButton
            type='button' 
            fullWidth 

@@ -53,6 +53,11 @@
     }
   }
 
+  .user-contacts {
+    display: flex;
+    flex-direction: column;
+  }
+
   .user,
   .chat {
     border: 1px solid #fff;
@@ -76,7 +81,52 @@
       line-height: 1;
     }
   }
-
-  
 }
 
+
+.search-contacts-drawer {
+  .MuiPaper-root.MuiDrawer-paper {
+    overflow-y: hidden;
+  }
+
+  .search-contacts {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .MuiTabPanel-root {
+    overflow-y: hidden;	
+  }
+  
+  .user-contacts,
+  .group-chat-contacts {
+    height: 100%;
+  }
+  
+  .search-results {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 5px;
+    color: #fff;
+
+    // firefox scrollbar (в firefox можно менять только эти два свойства)
+    scrollbar-width: thin;
+    scrollbar-color: #fff transparent;
+    
+    // all other browsers scrollbar
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 5px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #fff;
+      border-radius: 5px;
+    }
+  }
+}

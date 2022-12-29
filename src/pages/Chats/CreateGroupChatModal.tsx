@@ -59,6 +59,7 @@ function CreateGroupChatModal({ open, onClose }: CreateGroupChatModalProps) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         className='create-group-chat-modal'
+        data-testid='create-group-chat-modal'
       >
         <Box 
           component='form' 

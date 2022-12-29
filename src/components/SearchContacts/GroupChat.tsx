@@ -37,7 +37,7 @@ const GroupChat = forwardRef(
 
     return (
       <>
-        <Box ref={ref ?? undefined} className='chat'>
+        <Box ref={ref ?? undefined} className='chat' data-testid='chat'>
           <LoadingButton
             type='button' 
             fullWidth 

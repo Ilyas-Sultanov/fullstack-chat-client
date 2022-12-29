@@ -68,16 +68,18 @@ function GroupChats() {
         isLoading={isLoading}
         onSubmit={searchGroupChat}
       />
-      <Box className='search-results'>
+      <Box className='search-results' data-testid='search-results'>
         { 
-          responseData ?
+          isLoading ? <LinearProgress/> :
+          responseData && responseData.data.length > 0 ?
           responseData.data.map((chat, index) => {
             if (responseData.data.length === index + 1) {
               return <GroupChat key={chat._id} chat={chat} ref={lastChatRef}/>
             }
             return <GroupChat key={chat._id} chat={chat}/>
           }) : 
-          isLoading ? <LinearProgress/> :
+          responseData && responseData.data.length === 0 ?
+          'Not found' : 
           null
         }
       </Box>      

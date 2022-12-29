@@ -39,7 +39,7 @@ function Header() {
   }
 
   return (
-    <header className='header'>
+    <header className='header' data-testid='header'>
       {
         user ? 
         <>
@@ -49,6 +49,7 @@ function Header() {
             sx={{ color: '#fff'}}
             disableRipple={true}
             onClick={() => dispatch(setSearchContactsDrawerIsOpen(true)) }
+            data-testid='search-btn'
           >Search Contacts</Button>
           <Drawer
             className='search-contacts-drawer'
@@ -73,7 +74,7 @@ function Header() {
             aria-haspopup="true"
             aria-expanded={openMenu ? 'true' : undefined}
             onClick={handleClick}
-            disableRipple={true}
+            data-testid='auth-btn'
           >
             {user?.name}
           </Button>

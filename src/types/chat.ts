@@ -1,9 +1,13 @@
 import { IUser } from './user';
 
-export interface IChat {
+export interface INewChat {
   _id: string,
   name: string,
-  isGroupChat: true,
+  isGroupChat: boolean,
   users: Array<IUser>,
-  groupAdmin: IUser,
+  groupAdmin?: IUser,
+}
+
+export interface IChat extends INewChat {
+  createdAt: string
 }

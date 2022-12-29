@@ -16,7 +16,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
 }
 
 export function renderWithProviders(
-  ui: React.ReactElement,
+  component: React.ReactElement,
   {
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
@@ -27,5 +27,5 @@ export function renderWithProviders(
   function Wrapper({ children }: PropsWithChildren<{}>): JSX.Element {
     return <Provider store={store}>{children}</Provider>
   }
-  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
+  return { store, ...render(component, { wrapper: Wrapper, ...renderOptions }) }
 }
