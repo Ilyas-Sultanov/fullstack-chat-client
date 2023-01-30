@@ -2,7 +2,7 @@ import { Modal, Box, TextField, Typography, FormHelperText, Button, CircularProg
 import { LoadingButton } from '@mui/lab';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'; 
-import { validationSchema } from './validationSchema';
+import { adminModalValidationSchema } from './validationSchemas';
 import { IFormInputs } from './CreateGroupChatForm.types';
 import { useRenameGroupChatMutation, useDeleteGroupChatMutation } from '../../services/chat';
 import { isErrorWithMessage, isFetchBaseQueryError } from '../../helpers';
@@ -30,7 +30,7 @@ function CreateGroupChatModal({ open, onClose }: IAdminChatModalProps) {
     handleSubmit, 
     reset,
     formState,
-  } = useForm<IFormInputs>({mode: 'onSubmit', resolver: yupResolver(validationSchema)}); 
+  } = useForm<IFormInputs>({mode: 'onSubmit', resolver: yupResolver(adminModalValidationSchema)}); 
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
     try {
@@ -151,7 +151,7 @@ function CreateGroupChatModal({ open, onClose }: IAdminChatModalProps) {
           <Box className='chat-members'>
             <Typography 
               component='p'
-              className='memvers-list-title'
+              className='members-list-title'
             >Chat Members</Typography>
             <Stack spacing={1} divider={<hr className='divider'></hr>} className='memvers-list'>
               {

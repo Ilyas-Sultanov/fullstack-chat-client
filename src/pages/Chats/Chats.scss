@@ -54,6 +54,7 @@
     background-color: rgb(201, 198, 198);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
     .content__header {
       flex-grow: 0;
@@ -82,7 +83,16 @@
       background-color: #fff;
       border-radius: 4px;
       padding: 10px;
+      overflow-y: auto;
+      position: relative;
+
+      .typing-indicator {
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+      }
     }
+    
   }
 }
 
@@ -133,7 +143,7 @@
     min-width: 0;
   }
 
-  .memvers-list-title {
+  .members-list-title {
     color: rgba(0, 0, 0, 0.6);
     font-weight: 400;
     font-size: 13px;
@@ -163,6 +173,38 @@
     .btn-delete {
       min-width: 0;
       padding: 0;
+    }
+  }
+}
+
+.content__messages {
+  margin-bottom: 10px;
+}
+
+.msg-form {
+  .wrapper {
+    width: 100%;
+    display: flex;
+    column-gap: 10px;
+  }
+
+  .MuiInputBase-root {
+    background-color: #fff;
+
+    fieldset {
+      border-color: transparent;
+    }
+
+    &.Mui-focused {
+      fieldset {
+        border-color: transparent;
+      }
+    }
+
+    &:hover {
+      .MuiOutlinedInput-notchedOutline {
+        border-color: transparent;
+      }
     }
   }
 }

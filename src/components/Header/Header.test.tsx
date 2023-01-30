@@ -79,7 +79,7 @@ describe('Header tests', () => {
     test('Admin button should not be rendered', () => {
       const authBtn = screen.getByTestId('auth-btn');
       fireEvent.click(authBtn);
-      const adminBtn = screen.getByText(/Admin panel/i, { selector: 'li' });
+      const adminBtn = screen.queryByText(/Admin panel/i, { selector: 'li' });
       expect(adminBtn).not.toBeInTheDocument();
     });
 

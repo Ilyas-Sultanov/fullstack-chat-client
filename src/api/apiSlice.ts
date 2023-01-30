@@ -1,9 +1,10 @@
 import { BaseQueryApi, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IUser } from '../types';
 import { setUser, logOut } from '../store/slices/user';
+import { apiUrl } from './baseUrl';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000',
+  baseUrl: apiUrl,
   credentials: 'include',
   prepareHeaders: function(headers, /*{ getState }*/) {
     headers.set('Content-Type', 'application/json');

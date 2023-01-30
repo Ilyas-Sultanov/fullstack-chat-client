@@ -2,7 +2,7 @@ import { Modal, Box, TextField, FormHelperText, Button, CircularProgress } from 
 import { LoadingButton } from '@mui/lab';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'; 
-import { validationSchema } from './validationSchema';
+import { createGroupValidationSchema } from './validationSchemas';
 import { IFormInputs } from './CreateGroupChatForm.types';
 import { useCreateGroupChatMutation } from '../../services/chat';
 import { isErrorWithMessage, isFetchBaseQueryError } from '../../helpers';
@@ -23,7 +23,7 @@ function CreateGroupChatModal({ open, onClose }: CreateGroupChatModalProps) {
     handleSubmit, 
     reset,
     formState,
-  } = useForm<IFormInputs>({mode: 'onSubmit', resolver: yupResolver(validationSchema)}); 
+  } = useForm<IFormInputs>({mode: 'onSubmit', resolver: yupResolver(createGroupValidationSchema)}); 
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
     try {
